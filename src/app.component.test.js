@@ -34,4 +34,8 @@ describe('AppComponent', () => {
     // or
     // expect(wrapper.state().user).toBe(testData);
   });
+
+  it('should set users in state on fetch() users', () => {
+    const
+  });
 });
