@@ -4,7 +4,7 @@
   "description": "simple redux app",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --watchAll",
     "start": "./node_modules/.bin/webpack-dev-server --config   ./webpack.config.js --open",
     "build": "./node_modules/.bin/webpack --config webpack.config.js --watch"
   },
