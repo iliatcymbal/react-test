@@ -1,10 +1,7 @@
-import { configure, shallow } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import { shallow } from 'enzyme';
 import { AppComponent } from './app.component';
 import { Login } from './Login';
 import { User } from './User';
-
-configure({ adapter: new Adapter() });
 
 describe('AppComponent', () => {
   it('should create AppComponent', () => {

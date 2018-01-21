@@ -1,11 +1,8 @@
-import { configure, shallow } from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+import { shallow } from 'enzyme';
 import { Login } from './Login';
 
-configure({ adapter: new Adapter() });
-
 describe('Login', () => {
-  it('should create AppComponent', () => {
+  it('should create Login', () => {
     const wrapper = shallow(<Login />);
     expect(wrapper.find('form').length).toBe(1);
   });
