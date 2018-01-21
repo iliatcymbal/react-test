@@ -21,4 +21,17 @@ describe('Login', () => {
     wrapper.find('form').simulate('submit', event);
     expect(fakeLogin).toHaveBeenCalled();
   });
+
+  it('should call props.login() on form submit with arguments', () => {
+    const fakeLogin = jest.fn();
+    const wrapper = shallow(<Login login={fakeLogin} />);
+    const event = {
+      target: {name: {value: 'test'} },
+      preventDefault: _ => _
+    };
+    const user = { name: event.target.name.value };
+
+    wrapper.find('form').simulate('submit', event);
+    expect(fakeLogin).toHaveBeenCalledWith(user);
+  });
 });
