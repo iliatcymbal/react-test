@@ -3,6 +3,15 @@ import { AppComponent } from './app.component';
 import { Login } from './Login';
 import { User } from './User';
 
+const user = { name: 'John' };
+const mockUsers = [user, user];
+jest.mock('./services/users', () => ({
+    fetchUsers: () => ({
+      then: (cb) => cb(mockUsers)
+    })
+  })
+);
+
 describe('AppComponent', () => {
   it('should create AppComponent', () => {
     const wrapper = shallow(<AppComponent/>);
@@ -36,21 +45,10 @@ describe('AppComponent', () => {
   });
 
   it('should set users in state on fetch() users', async () => {
-    const user = { name: 'John' };
-    const users = [user, user];
     const wrapper = shallow(<AppComponent/>);
-    const fakeFetch = () => ({
-      then: () => ({
-        then: (cb) => cb(users)
-      })
-    });
-
-    global.fetch = fakeFetch;
 
     wrapper.find('button').simulate('click');
-
-    expect(wrapper.state().users).toBe(users);
+    expect(wrapper.state().users).toBe(mockUsers);
   });
 
-})
-;
+});
