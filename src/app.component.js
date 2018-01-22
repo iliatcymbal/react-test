@@ -1,6 +1,7 @@
 import { User } from './User';
 import { Login } from './Login';
 import { UserList } from './UserList';
+import { fetchUsers } from './services';
 
 export class AppComponent extends Component {
   constructor(props) {
@@ -19,8 +20,7 @@ export class AppComponent extends Component {
   }
 
   getUsers() {
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then(data => data.json())
+    fetchUsers()
       .then(users => this.setState({ users }));
   }
 
