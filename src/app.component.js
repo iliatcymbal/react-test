@@ -49,6 +49,7 @@ export class AppComponent extends Component {
             !!users.length && <UserList users={users} />
           }
         </div>
+        <img src="images/octocat.jpg" alt="img"/>
       </React.Fragment>
     );
   }

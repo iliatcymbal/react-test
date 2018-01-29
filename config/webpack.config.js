@@ -2,13 +2,16 @@ const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const textPlugin = require('extract-text-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+
+const images = ['jpg', 'jpeg', 'png', 'gif', 'svg'];
 
 module.exports = {
   entry: {
     vendor: ['react', 'react-dom'],
     main: './app'
   },
-  context: path.resolve(__dirname, 'src'),
+  context: path.resolve(__dirname, '../src'),
   output: {
     path: __dirname + '/dist',
     filename: '[name].js'
@@ -69,6 +72,10 @@ module.exports = {
       filename: 'main.css',
       allChunks: true
     }),
+
+    new CopyWebpackPlugin([
+      ...images.map(ext => ({ from: `**/*/*.${ext}`, to: 'images/[name].[ext]' }))
+    ])
   ],
 
   devServer: {
