@@ -1,8 +1,8 @@
 module.exports = {
   verbose: true,
   setupFiles: ['./jest.setup.js'],
-  moduleNameMapper: {
+  /*moduleNameMapper: {
     '\\.(css|scss)$': 'babel-jest'
-  },
+  },*/
   roots: ['../src']
 };
