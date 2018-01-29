@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const textPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -22,6 +23,28 @@ module.exports = {
           loader: 'babel-loader',
           options: { presets: ['env', 'react'] }
         }
+      },
+
+      {
+        test: /\.s?css$/,
+        use: textPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                sourceMap: true
+              }
+            },
+            {
+              loader: 'sass-loader',
+              options: {
+                includePaths: ['src'],
+                sourceMap: true
+              }
+            }
+          ]
+        })
       }
     ]
   },
@@ -40,7 +63,12 @@ module.exports = {
     new webpack.ProvidePlugin({
       React: 'react',
       Component: ['react', 'Component']
-    })
+    }),
+
+    new textPlugin({
+      filename: 'main.css',
+      allChunks: true
+    }),
   ],
 
   devServer: {

@@ -3,6 +3,8 @@ import { Login } from './Login';
 import { UserList } from './UserList';
 import { fetchUsers } from './services';
 
+import './app.component.scss';
+
 export class AppComponent extends Component {
   constructor(props) {
     super(props);
