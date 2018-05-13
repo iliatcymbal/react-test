@@ -8,7 +8,7 @@ const images = ['jpg', 'jpeg', 'png', 'gif', 'svg'];
 
 module.exports = {
   entry: {
-    vendor: ['react', 'react-dom'],
+    vendor: ['react', 'react-dom', 'redux', 'react-redux', 'redux-saga', 'babel-polyfill'],
     main: './app'
   },
   context: path.resolve(__dirname, '../src'),
@@ -24,7 +24,10 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
-          options: { presets: ['env', 'react'] }
+          options: {
+            presets: ['env', 'react', 'stage-0'],
+            plugins: ['transform-regenerator']
+          }
         }
       },
 

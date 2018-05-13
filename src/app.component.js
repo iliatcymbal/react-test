@@ -1,56 +1,40 @@
+import { connect } from 'react-redux';
+
 import { User } from './User';
 import { Login } from './Login';
 import { UserList } from './UserList';
-import { fetchUsers } from './services';
+import { setUser, getUsers } from './store';
 
 import './app.component.scss';
 
-export class AppComponent extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      user: null,
-      users: []
-    };
-    this.setUser = this.setUser.bind(this);
-  }
+export const AppComponent = ({ user, users, logout, getUsers }) => (
+  <React.Fragment>
+    <h1>Simple react app</h1>
 
-  setUser(user) {
-    this.setState({
-      user
-    });
-  }
+    {
+      user ?
+        <User
+          data={user}
+          login={logout}
+        /> :
+        <Login />
+    }
 
-  getUsers() {
-    fetchUsers()
-      .then(users => this.setState({ users }));
-  }
+    <div className="user-box">
+      <br/>
+      <button onClick={getUsers}>Get users</button>
+      {
+        !!users.length && <UserList users={users} />
+      }
+    </div>
+    <img src="images/octocat.jpg" alt="img"/>
+  </React.Fragment>
+);
 
-  render() {
-    const { user, users } = this.state;
+const mapStoreToState = ({ user, users }) => ({ user, users });
+const mapDispatchToProps = dispatch => ({
+  logout() { dispatch(setUser(null)); },
+  getUsers() { dispatch(getUsers()) }
+});
 
-    return (
-      <React.Fragment>
-        <h1>Simple react app</h1>
-
-        {
-          user ?
-            <User
-              data={user}
-              login={this.setUser}
-            /> :
-            <Login login={this.setUser}/>
-        }
-
-        <div className="user-box">
-          <br/>
-          <button onClick={() => this.getUsers()}>Get users</button>
-          {
-            !!users.length && <UserList users={users} />
-          }
-        </div>
-        <img src="images/octocat.jpg" alt="img"/>
-      </React.Fragment>
-    );
-  }
-}
+export const App = connect(mapStoreToState, mapDispatchToProps)(AppComponent);

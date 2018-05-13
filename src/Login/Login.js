@@ -1,6 +1,9 @@
-export const Login = ({ login }) => {
+import { connect } from 'react-redux';
+import { setUser } from "../store";
+
+export const LoginComponent = ({ dispatch }) => {
   const submit = (event) => {
-    login({ name: event.target.name.value });
+    dispatch(setUser({ name: event.target.name.value }));
     event.preventDefault();
   };
 
@@ -14,3 +17,5 @@ export const Login = ({ login }) => {
     </form>
   );
 };
+
+export const Login = connect()(LoginComponent);
