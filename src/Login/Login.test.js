@@ -1,34 +1,36 @@
 import { shallow } from 'enzyme';
-import { Login } from './Login';
+import { LoginComponent } from './Login';
+import { setUser } from '../store';
 
 describe('Login', () => {
   it('should create Login', () => {
-    const wrapper = shallow(<Login />);
+    const wrapper = shallow(<LoginComponent />);
     expect(wrapper.find('form').length).toBe(1);
   });
 
-  it('should call props.login() on form submit', () => {
-    const fakeLogin = jest.fn();
-    const wrapper = shallow(<Login login={fakeLogin} />);
+  it('should call dispatch on form submit', () => {
+    const fakeDispatch = jest.fn();
+    const wrapper = shallow(<LoginComponent dispatch={fakeDispatch} />);
     const event = {
       target: {name: {value: ''} },
       preventDefault: _ => _
     };
 
     wrapper.find('form').simulate('submit', event);
-    expect(fakeLogin).toHaveBeenCalled();
+    expect(fakeDispatch).toHaveBeenCalled();
   });
 
-  it('should call props.login() on form submit with arguments', () => {
-    const fakeLogin = jest.fn();
-    const wrapper = shallow(<Login login={fakeLogin} />);
+  it('should call dispatch() on form submit with arguments', () => {
     const event = {
       target: {name: {value: 'test'} },
       preventDefault: _ => _
     };
     const user = { name: event.target.name.value };
+    const action = setUser(user)
+    const fakeDispatch = jest.fn().mockReturnValue(action);
+    const wrapper = shallow(<LoginComponent dispatch={fakeDispatch} />);
 
     wrapper.find('form').simulate('submit', event);
-    expect(fakeLogin).toHaveBeenCalledWith(user);
+    expect(fakeDispatch).toHaveBeenCalledWith(action);
   });
 });

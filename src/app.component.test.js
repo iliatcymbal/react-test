@@ -2,53 +2,40 @@ import { shallow } from 'enzyme';
 import { AppComponent } from './app.component';
 import { Login } from './Login';
 import { User } from './User';
+import { UserList } from './UserList';
 
 const user = { name: 'John' };
-const mockUsers = [user, user];
-jest.mock('./services/users', () => ({
-    fetchUsers: () => ({
-      then: (cb) => cb(mockUsers)
-    })
-  })
-);
+const users = [user, user];
 
 describe('AppComponent', () => {
   it('should create AppComponent', () => {
-    const wrapper = shallow(<AppComponent/>);
+    const wrapper = shallow(<AppComponent users={[]} />);
     expect(wrapper.find('h1').length).toBe(1);
   });
 
-  it('should have null user in state', () => {
-    const wrapper = shallow(<AppComponent/>);
-    expect(wrapper.state().user).toBeNull();
-  });
-
   it('should show Login component on null user', () => {
-    const wrapper = shallow(<AppComponent/>);
+    const wrapper = shallow(<AppComponent users={[]} />);
     expect(wrapper.find(Login).length).toBe(1);
   });
 
   it('should show User component on non-null user', () => {
-    const wrapper = shallow(<AppComponent/>);
-    wrapper.setState({ user: {} });
+    const wrapper = shallow(<AppComponent users={users} />);
+    wrapper.setProps({ user });
     expect(wrapper.find(User).length).toBe(1);
   });
 
-  it('should set new state on setUser()', () => {
-    const wrapper = shallow(<AppComponent/>);
-    const instance = wrapper.instance();
-    const testData = {};
-    instance.setUser(testData);
-    expect(instance.state.user).toBe(testData);
-    // or
-    // expect(wrapper.state().user).toBe(testData);
+  it('should not show "UserList" on emtpy users', () => {
+    const wrapper = shallow(<AppComponent users={[]} />);
+    expect(wrapper.find(UserList).length).toBe(0);
   });
 
-  it('should set users in state on fetch() users', async () => {
-    const wrapper = shallow(<AppComponent/>);
+  it('should set users in state on getUsers()', () => {
+    const wrapper = shallow(<AppComponent users={[]} />);
+    const getUsers = () => wrapper.setProps({ users });
 
+    wrapper.setProps({ getUsers });
     wrapper.find('button').simulate('click');
-    expect(wrapper.state().users).toBe(mockUsers);
+    expect(wrapper.find(UserList).length).toBe(1);
   });
 
 });
