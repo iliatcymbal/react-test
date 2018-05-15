@@ -4,7 +4,8 @@
   "description": "simple redux app",
   "main": "index.js",
   "scripts": {
-    "test": "jest --config ./config/jest.config.js --watchAll",
+    "test": "jest --config ./config/jest.config.js --watchAll --coverage=false",
+    "test:cov": "jest --config ./config/jest.config.js --watchAll",
     "start": "./node_modules/.bin/webpack-dev-server --config ./config/webpack.config.js --open",
     "build": "./node_modules/.bin/webpack --config ./config/webpack.config.js --watch"
   },
