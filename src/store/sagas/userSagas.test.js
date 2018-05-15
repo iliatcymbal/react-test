@@ -3,21 +3,21 @@ import { setUsers } from '../actions';
 import { put } from 'redux-saga/effects';
 import { runSaga } from 'redux-saga';
 
+const user = { name: 'John' };
+const mockUsers = [user, user];
+jest.mock('../../services/users', () => ({
+    fetchUsers: () => mockUsers
+  })
+);
+
 describe('userSagas', () => {
-  const user = { name: 'John' };
-  const users = [user, user];
 
-  const fakeFetch = () => ({
-    then: () => users
-  });
-
-  global.fetch = fakeFetch;
 
   it('should send users to store', () => {
     const it = getUsers();
     const fetchedUsers = it.next().value;
 
-    expect(fetchedUsers).toEqual(users);
+    expect(fetchedUsers).toEqual(mockUsers);
     expect(it.next(fetchedUsers).value).toEqual(put(setUsers(fetchedUsers)));
   });
 
@@ -29,6 +29,6 @@ describe('userSagas', () => {
      dispatch: data => action = data
    }, getUsers);
 
-   expect(action.data).toEqual(users);
+   expect(action.data).toEqual(mockUsers);
   });
 });
