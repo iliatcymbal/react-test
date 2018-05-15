@@ -11,8 +11,6 @@ jest.mock('../../services/users', () => ({
 );
 
 describe('userSagas', () => {
-
-
   it('should send users to store', () => {
     const it = getUsers();
     const fetchedUsers = it.next().value;
@@ -21,11 +19,10 @@ describe('userSagas', () => {
     expect(it.next(fetchedUsers).value).toEqual(put(setUsers(fetchedUsers)));
   });
 
-  it('should send users to store [another way to test saga]', async () => {
+  it('should send users to store [another way to test saga]', () => {
    let action;
 
    runSaga({
-     subscribe: (s) => () => s,
      dispatch: data => action = data
    }, getUsers);
 
