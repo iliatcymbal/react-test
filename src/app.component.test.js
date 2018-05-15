@@ -30,10 +30,9 @@ describe('AppComponent', () => {
   });
 
   it('should set users in state on getUsers()', () => {
-    const wrapper = shallow(<AppComponent users={[]} />);
     const getUsers = () => wrapper.setProps({ users });
+    const wrapper = shallow(<AppComponent users={[]} getUsers={getUsers}/>);
 
-    wrapper.setProps({ getUsers });
     wrapper.find('button').simulate('click');
     expect(wrapper.find(UserList).length).toBe(1);
   });
