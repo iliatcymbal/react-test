@@ -1,5 +1,5 @@
 import { getUsers } from './userSagas';
-import { setUsers } from '../actions';
+import {SET_USERS, setUsers} from '../actions';
 import { put } from 'redux-saga/effects';
 import { runSaga } from 'redux-saga';
 
@@ -16,16 +16,16 @@ describe('userSagas', () => {
     const fetchedUsers = it.next().value;
 
     expect(fetchedUsers).toEqual(mockUsers);
-    expect(it.next(fetchedUsers).value).toEqual(put(setUsers(fetchedUsers)));
+    expect(it.next(fetchedUsers).value)
+        .toEqual(put(setUsers(fetchedUsers)));
   });
 
   it('should send users to store [another way to test saga]', () => {
-   let action;
-
    runSaga({
-     dispatch: data => action = data
+     dispatch: function (action) {
+         // action = { type: SET_USERS, data }
+         expect(action.data).toEqual(mockUsers);
+     }
    }, getUsers);
-
-   expect(action.data).toEqual(mockUsers);
   });
 });

@@ -12,6 +12,7 @@ export function* getUsers() {
   try {
     const users = yield fetchUsers();
     yield put(setUsers(users));
+    // Store.dispatch( setUsers(users) )
   } catch (err) {}
 }
 
